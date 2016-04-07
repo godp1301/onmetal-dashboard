@@ -3,7 +3,8 @@
 
 var _ = require('underscore'),
   utile = require('utile'),
-  util = require('../lib/util');
+  util = require('../lib/util'),
+  config = require('../config');
 
 /**
  * Get and format node details, then render to response object
@@ -35,7 +36,15 @@ var getNodeDetail = function (res, node, region) {
   }
   clean_step = clean_step || '';
 
-  var nodeDetail = {
+  var regions = _.map(config.regions,
+    function (services, region) {
+      return {
+        name: region,
+        url: services.ironic.serviceHost
+      };
+  });
+
+  var params = {
     links: {
       alerts: alerts_url,
       summary: '/' + region,
@@ -82,10 +91,12 @@ var getNodeDetail = function (res, node, region) {
       ports: node.ports,
       links: node.links
     },
-    raw: JSON.stringify(node, null, 4)
+    raw: JSON.stringify(node, null, 4),
+    regions: regions,
+    region: region
   };
 
-  res.render('detail', nodeDetail);
+  res.render('detail', params);
   res.end();
 };
 

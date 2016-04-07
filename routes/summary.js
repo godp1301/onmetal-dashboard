@@ -243,7 +243,13 @@ var SummaryRouter = function (io) {
 
     // we only want the moods data, not the index data
     var moodsData = builder.moods;
-    var regions = _.keys(config.regions);
+    var regions = _.map(config.regions,
+      function (services, region) {
+        return {
+          name: region,
+          url: services.ironic.serviceHost
+        };
+    });
 
     res.render('tables', {
       alerts_url: util.getAlertsUrl(region),

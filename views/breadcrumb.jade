@@ -1,0 +1,13 @@
+ol.breadcrumb
+  li
+    a(href='/') Home
+
+  if region    
+    if !overview
+      li.active #{region}
+
+    else
+      li 
+        a(href='/#{region}') #{region}
+      li.active #{overview.uuid}
+

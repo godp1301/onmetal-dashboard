@@ -1,93 +1,110 @@
+block variables
+  title #{region} - Ironic Dashboard
+
 extends layout
 
 block content
+  h2.sub-header Dashboard
+  .row.placeholders
+    .col-md-6.col-xs-12.placeholder
+      .thumbnail
+        .chart-container
+          .canvas-container
+            canvas.chart(id='pieChart')
+          #pieChartLegend.legend-container
 
-  select(name='quick_regions', onChange='window.location="/"+this.value')
-    each _region in regions
-      option(value="#{_region}") #{_region}
+    .col-md-6.col-xs-12.placeholder
+      .thumbnail
+        #graphite.chart
+          .btn-group
+            button.btn.btn-default(onClick='updateGraphiteChart("1hours")') 1 Hour
+            button.btn.btn-default(onClick='updateGraphiteChart("1days")') 1 Day
+            button.btn.btn-default(onClick='updateGraphiteChart("3days")') 3 Days
+            button.btn.btn-default(onClick='updateGraphiteChart("7days")') 7 Days
+          img(id='graphite-img')
 
-  article
-    h3 #{_region}
-    .chart-container
-      .canvas-container
-        canvas.chart(id='pieChart')
-      #pieChartLegend.legend-container
+  h2.sub-header Nodes list
+  .row.actions
+    .col-md-12
+      .btn-group
+        button.btn.btn-default(onClick='expandAccordion()') Expand
+        button.btn.btn-default(onClick='foldAccordion()') Fold
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id="inactive-panel" data-toggle="collapse" data-target="#inactive" href="#inactive") Inactive Nodes
+        #inactive.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='inactive-table' class='dataTable table table-striped')
 
-  #graphite.chart
-    .btn-group
-      button.btn.btn-default(onClick='updateGraphiteChart("1hours")') 1 Hour
-      button.btn.btn-default(onClick='updateGraphiteChart("1days")') 1 Day
-      button.btn.btn-default(onClick='updateGraphiteChart("3days")') 3 Days
-      button.btn.btn-default(onClick='updateGraphiteChart("7days")') 7 Days
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id="provisioned-panel" data-toggle="collapse" data-target="#provisioned" href="#provisioned") Provisioned Nodes
+        #provisioned.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='provisioned-table' class='dataTable table table-striped')
 
-    img(id='graphite-img')
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id='clean-panel' data-toggle="collapse" data-target="#clean" href="#clean") Cleaning Nodes
+        #clean.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='clean-table' class='dataTable table table-striped')
 
-  .btn-group
-    button.btn.btn-default(onClick='expandAccordion()' style="margin: 10px auto") Expand Accordions
-    button.btn.btn-default(onClick='foldAccordion()' style="margin: 10px auto") Fold Accordions
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id='deploying-panel' data-toggle="collapse" data-target="#deploying" href="#deploying") Deploying Nodes
+        #deploying.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='deploying-table' class='dataTable table table-striped')
 
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id="inactive-panel" data-toggle="collapse" data-parents="#accordion" href="#inactive") Inactive Nodes
-    #inactive.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='inactive-table' class='dataTable table table-striped')
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id='maintenance-panel' data-toggle="collapse" data-target="#maintenance" href="#maintenance") Maintenance Nodes
+        #maintenance.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='maintenance-table' class='dataTable table table-striped')
 
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id="provisioned-panel" data-toggle="collapse" data-parents="#accordion" href="#provisioned") Provisioned Nodes
-    #provisioned.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='provisioned-table' class='dataTable table table-striped')
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id="anomalous-panel" data-toggle="collapse" data-target="#anomalous" href="#anomalous") Anomalous Nodes
+        #anomalous.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='anomalous-table' class='dataTable table table-striped')
 
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id='clean-panel' data-toggle="collapse" data-parents="#accordion" href="#clean") Cleaning Nodes
-    #clean.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='clean-table' class='dataTable table table-striped')
-
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id='deploying-panel' data-toggle="collapse" data-parents="#accordion" href="#deploying") Deploying Nodes
-    #deploying.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='deploying-table' class='dataTable table table-striped')
-
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id='maintenance-panel' data-toggle="collapse" data-parents="#accordion" href="#maintenance") Maintenance Nodes
-    #maintenance.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='maintenance-table' class='dataTable table table-striped')
-
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id="anomalous-panel" data-toggle="collapse" data-parents="#accordion" href="#anomalous") Anomalous Nodes
-    #anomalous.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='anomalous-table' class='dataTable table table-striped')
-
-  .panel.panel-default
-    .panel-heading
-      h1.panel-title
-        a(id="capacity-panel" data-toggle="collapse" data-parents="#accordion" href="#capacity") Capacity
-    #capacity.panel-collapse.collapse
-      .panel-body
-        div
-          table(id='capacity-table' class='dataTable table table-striped')
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(id="capacity-panel" data-toggle="collapse" data-target="#capacity" href="#capacity") Capacity
+        #capacity.panel-collapse.collapse
+          .panel-body
+            div
+              table(id='capacity-table' class='dataTable table table-striped')
 
   script(type='text/javascript').
     var moods = !{JSON.stringify(moods)},
@@ -139,8 +156,6 @@ block content
     }
 
     $(function () {
-      $('select[name="quick_regions"]').val(region);
-
       drawPieChart(moods, flavors, conf_moods, conf_flavors);
 
       if ('#{graphiteEndpoints.render}'.length > 0) {

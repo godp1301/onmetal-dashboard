@@ -132,7 +132,8 @@ var DataTableHelper = (function () {
   var _createSearchableInputBox = function (dt, idx, name) {
     var input = $('<input />', {
       placeholder: 'Search ' + name,
-      type: 'text'
+      type: 'text',
+      class: 'form-control input-sm'
     }).on('keyup change', function () {
       dt.column(idx)
         .search(this.value)
@@ -148,7 +149,7 @@ var DataTableHelper = (function () {
   };
 
   var _setPanelCount = function (dt, panel, title) {
-    var panelString = title + ' (' + dt.rows().data().length + ')';
+    var panelString = title + ' <span class="badge">' + dt.rows().data().length + '</span>';
     panel.html(panelString);
   };
 
@@ -197,6 +198,7 @@ var DataTableHelper = (function () {
     var dt = el.DataTable({
       paging: true,
       bSortCellsTop: true,
+      bAutoWidth: false,
       ajax: ajaxEndpoint,
       columns: _.values(columns),
       createdRow: function (row) {

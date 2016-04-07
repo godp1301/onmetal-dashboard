@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "openstack";
+  src: url('../fonts/openstack/openstack.eot');
+  src: url('../fonts/openstack/openstack.eot?#iefix') format('eot'),
+  url('../fonts/openstack/openstack.woff') format('woff'),
+  url('../fonts/openstack/openstack.ttf') format('truetype'),
+  url('../fonts/openstack/openstack.svg#openstack') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.of:before {
+  display: inline-block;
+  font-family: "openstack";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: -15%
+}
+
+.of-lg {
+  font-size: 1.3333333333333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.of-2x { font-size: 2em; }
+.of-3x { font-size: 3em; }
+.of-4x { font-size: 4em; }
+.of-5x { font-size: 5em; }
+.of-fw {
+  width: 1.2857142857142858em;
+  text-align: center;
+}
+
+.of-openstack:before { content: "\E001" }
+.of-ironic:before { content: "\EA01" }

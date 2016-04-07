@@ -1,153 +1,150 @@
+block variables
+  title Node detail: #{overview.uuid} - Ironic Dashboard
+
 extends layout
 
 block head
   script(src="/js/funcs.js")
 
 block content
-  button.btn.btn-default
-    a(href=links.summary) Back to summary page
+  .row.actions
+    .col-md-12
+      .btn-group
+        button.btn.btn-default(onClick='expandAccordion()') Expand
+        button.btn.btn-default(onClick='foldAccordion()') Fold
 
-  .btn-group
-    button.btn.btn-default(onClick='expandAccordion()' style="margin: 10px auto") Expand Accordions
-    button.btn.btn-default(onClick='foldAccordion()' style="margin: 10px auto") Fold Accordions
+      .btn-group.pull-right
+        a.btn.btn-primary(href=links.neutron) View Neutron Data
 
-  #accordion.panel-group
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#overview") Overview
-      #overview.panel-collapse.collapse
-        .panel-body
-          div
-            table.table.table-hover
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(data-toggle="collapse" data-target="#overview" href="#overview") Overview
+        #overview.panel-collapse.collapse
+          table.table.table-striped.table-hover
+            tbody
+              tr
+                th Node ID
+                td=overview.uuid
+              tr
+                th Instance ID
+                if links.alerts
+                  td
+                    a(href=links.alerts)=overview.instance_id
+                else
+                  td=overview.instance_id
+              tr
+                th Mood
+                td=overview.mood
+              tr
+                th Node URL
+                td=links.node
+              tr
+                th Agent URL
+                td=links.agent
+              tr
+                th Flavor
+                td=overview.flavor
+              tr
+                th Power State
+                td=overview.power_state
+
+  .row
+    .col-md-12
+        .panel.panel-default
+          .panel-heading
+            h1.panel-title
+              a(data-toggle="collapse" data-target="#state" href="#state") State
+          #state.panel-collapse.collapse
+            table.table.table-striped.table-hover
               tbody
                 tr
-                  td Node ID
-                  td=overview.uuid
-                tr
-                  td Instance ID
-                  if links.alerts
-                    td
-                      a(href=links.alerts)=overview.instance_id
-                  else
-                    td=overview.instance_id
-                tr
-                  td Mood
-                  td=overview.mood
-                tr
-                  td Node URL
-                  td=links.node
-                tr
-                  td Agent URL
-                  td=links.agent
-                tr
-                  td Flavor
-                  td=overview.flavor
-                tr
-                  td Power State
-                  td=overview.power_state
-
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#state") State
-      #state.panel-collapse.collapse
-        .panel-body
-          div
-            table.table.table-hover
-              tbody
-                tr
-                  td Power State
+                  th Power State
                   td=state.power_state
                 tr
-                  td Target Power State
+                  th Target Power State
                   td=state.target_power_state
                 tr
-                  td Provision State
+                  th Provision State
                   td=state.provision_state
                 tr
-                  td Target Provision State
+                  th Target Provision State
                   td=state.target_power_state
                 tr
-                  td Clean Step
+                  th Clean Step
                   td=state.clean_step
                 tr
-                  td Provision Updated At
+                  th Provision Updated At
                   td=state.provision_updated_at
                 tr
-                  td Reservation
+                  th Reservation
                   td=state.reservation
                 tr
-                  td Created At
+                  th Created At
                   td=state.created_at
                 tr
-                  td Update At
+                  th Update At
                   td=state.updated_at
 
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#error") Error Info
-      #error.panel-collapse.collapse
-        .panel-body
-          div
-            table.table.table-hover
-              tbody
-                tr
-                  td Last Error
-                  td=error.last_error
-                tr
-                  td Last Heartbeat
-                  td=error.last_heartbeat
-                tr
-                  td Console Enabled?
-                  td=error.console_enabled
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(data-toggle="collapse" data-target="#error" href="#error") Error Info
+        #error.panel-collapse.collapse
+          table.table.table-striped.table-hover
+            tbody
+              tr
+                th Last Error
+                td=error.last_error
+              tr
+                th Last Heartbeat
+                td=error.last_heartbeat
+              tr
+                th Console Enabled?
+                td=error.console_enabled
 
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#maintenance") Maintenance Info
-      #maintenance.panel-collapse.collapse
-        .panel-body
-          div
-            table.table.table-hover
-              tbody
-                tr
-                  td Maintenance Reason
-                  td=maintenance.maintenance_reason
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(data-toggle="collapse" data-parents="#accordion" href="#maintenance") Maintenance Info
+        #maintenance.panel-collapse.collapse
+          table.table.table-striped.table-hover
+            tbody
+              tr
+                th Maintenance Reason
+                td=maintenance.maintenance_reason
 
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#ipmi") IPMI
-      #ipmi.panel-collapse.collapse
-        .panel-body
-          div
-            table.table.table-hover
-              tbody
-                tr
-                  td IPMI Address
-                  td=ipmi.ipmi_address
-                tr
-                  td IPMI Username
-                  td=ipmi.ipmi_username
-                tr
-                  td IPMI Password
-                  td=ipmi.ipmi_password
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(data-toggle="collapse" data-target="#ipmi" href="#ipmi") IPMI
+        #ipmi.panel-collapse.collapse
+          table.table.table-striped.table-hover
+            tbody
+              tr
+                th IPMI Address
+                td=ipmi.ipmi_address
+              tr
+                th IPMI Username
+                td=ipmi.ipmi_username
+              tr
+                th IPMI Password
+                td=ipmi.ipmi_password
 
-    .panel.panel-default
-      .panel-heading
-        h1.panel-title
-          a(data-toggle="collapse" data-parents="#accordion" href="#raw") Raw
-      #raw.panel-collapse.collapse
-        .panel-body
-          pre=raw
-
-  button.btn.btn-default
-    a(href=links.neutron) View Neutron Data
-
-  script(type='text/javascript').
-    $(function () {
-      $('#overview').slideDown();
-      $('#raw').slideDown();
-    })
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          h1.panel-title
+            a(data-toggle="collapse" data-target="#raw" href="#raw") Raw
+        #raw.panel-collapse.collapse
+          .panel-body
+            pre=raw

@@ -1,10 +1,5 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
 }
 
 .ellip {
@@ -71,4 +66,8 @@ tfoot input {
 .legend-container {
     width: 20%;
     float: right;
+}
+
+.row.actions {
+  margin-bottom: 10px;
 }

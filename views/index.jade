@@ -1,16 +1,25 @@
+block variables
+  title Regions list - Ironic Dashboard
+
 extends layout
 
 block content
-  .container
-    h1 Ironic Dashboard
-    .content
+  .content
+    .panel.panel-default
+      .panel-heading 
+        h1.panel-title Regions list
       table.table.table-striped
         thead
           tr
-            th Region
+            th Regions
             th Ironic URL
+            th Action
         tbody
           each region in regions
             tr
-              td <a href="/#{region.name}">#{region.name}</a>
-              td #{region.url}
+              td 
+                a(href='/#{region.name}') #{region.name}
+              td 
+                a(href='/#{region.name}') #{region.url}
+              td 
+                a.btn.btn-sm.btn-primary(href='/#{region.name}') View

@@ -103,9 +103,11 @@ function drawPieChart(moodsData, flavors, conf_moods, conf_flavors) {
 
   });
   var ctx = document.getElementById("pieChart").getContext("2d");
+  ctx.canvas.width = 350;
+  ctx.canvas.height = 350;
   var chart = new Chart(ctx).Pie(moodSeries, pieChartOptions);
   var legend = chart.generateLegend();
-  $('#pieChartLegend').append(legend);
+  $('#pieChartLegend').append(legend);     
 }
 
 function expandAccordion() {

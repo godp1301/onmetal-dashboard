@@ -13,14 +13,7 @@ body {
 }
 
 .uuid.ellip {
-    width: 100px;
-}
-
-.chart {
-    min-width: 500px;
-    max-width: 1000px;
-    height: 450px;
-    margin: 50px auto;
+    width: 200px;
 }
 
 tfoot input {
@@ -29,15 +22,27 @@ tfoot input {
     box-sizing: border-box;
 }
 
+.row.actions {
+  margin-bottom: 10px;
+}
+
+
+/* Pie */
 .chart-container {
-    max-width: 900px;
-    height: 540px;
+  text-align: center
+}
+
+#pieChart {
+    margin: auto;
+}
+
+.legend-container {
+    margin-top: 20px;
 }
 
 .legend li {
-  display: block;
+  display: inline-block;
   position: relative;
-  margin-bottom: 4px;
   border-radius: 5px;
   padding: 2px 8px 2px 30px;
   font-size: 14px;
@@ -58,16 +63,30 @@ tfoot input {
   border-radius: 5px;
 }
 
-.canvas-container {
-    width: 80%;
-    float: left;
+/* Date picker */
+.inner-addon { 
+  position: relative; 
 }
 
-.legend-container {
-    width: 20%;
-    float: right;
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
 }
 
-.row.actions {
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+#graphite {
+  text-align: center;
+  padding: 10px;
+}
+.graphite-date {
   margin-bottom: 10px;
 }

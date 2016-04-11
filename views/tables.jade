@@ -6,22 +6,21 @@ extends layout
 block content
   h2.sub-header Dashboard
   .row.placeholders
-    .col-md-6.col-xs-12.placeholder
+    .col-lg-6.col-md-5.col-xs-12.placeholder
       .thumbnail
         .chart-container
           .canvas-container
-            canvas.chart(id='pieChart')
+            canvas.chart.img-responsive(id='pieChart')
           #pieChartLegend.legend-container
 
-    .col-md-6.col-xs-12.placeholder
-      .thumbnail
+    .col-lg-6.col-md-7.col-xs-12.placeholder
+     .thumbnail
         #graphite.chart
-          .btn-group
-            button.btn.btn-default(onClick='updateGraphiteChart("1hours")') 1 Hour
-            button.btn.btn-default(onClick='updateGraphiteChart("1days")') 1 Day
-            button.btn.btn-default(onClick='updateGraphiteChart("3days")') 3 Days
-            button.btn.btn-default(onClick='updateGraphiteChart("7days")') 7 Days
-          img(id='graphite-img')
+          .controls.graphite-date.inner-addon.left-addon
+            i.glyphicon.glyphicon-calendar.fa.fa-calendar
+            input.form-control(type="text")
+          a(target="_blank")
+            img.img-responsive
 
   h2.sub-header Nodes list
   .row.actions
@@ -107,12 +106,55 @@ block content
               table(id='capacity-table' class='dataTable table table-striped')
 
   script(type='text/javascript').
+    $('.graphite-date input').daterangepicker({
+        "timePicker24Hour": true,
+        "timePicker": true,
+        "autoApply": true,
+        "alwaysShowCalendars": true,
+        "maxDate": moment().endOf('day').format("MM/DD/YYYY HH:mm"),
+        "opens": "right",
+        "locale": {
+          "format": 'MM/DD/YYYY HH:mm'
+        },
+        "ranges": {
+            "1h": [
+                moment().subtract(1, 'hour').format("MM/DD/YYYY HH:mm"),
+                moment().format("MM/DD/YYYY HH:mm")
+            ],
+            "Today": [
+                moment().startOf('day').format("MM/DD/YYYY HH:mm"),
+                moment().endOf('day').format("MM/DD/YYYY HH:mm")
+            ],
+            "Yesterday": [
+                moment().startOf('day').subtract(1, 'day').format("MM/DD/YYYY HH:mm"),
+                moment().endOf('day').subtract(1, 'day').format("MM/DD/YYYY HH:mm")
+            ],
+            "Last 7 Days": [
+                moment().startOf('day').subtract(7, 'days').format("MM/DD/YYYY HH:mm"),
+                moment().endOf('day').format("MM/DD/YYYY HH:mm")
+            ],
+            "Last 30 Days": [
+                moment().startOf('day').subtract(1, 'month').format("MM/DD/YYYY HH:mm"),
+                moment().endOf('day').format("MM/DD/YYYY HH:mm")
+            ]
+        }
+      },
+      function(start, end, label) {
+        updateGraphiteChart(
+          start.format("HH:mm_YYYYMMDD"),
+          end.format("HH:mm_YYYYMMDD")
+        );
+        console.log('From: ' + start.format("HH:mm_YYYYMMDD"));
+        console.log('Until: ' + end.format("HH:mm_YYYYMMDD"));
+    });
+
+
     var moods = !{JSON.stringify(moods)},
       flavors = !{JSON.stringify(flavors)},
       conf_moods = !{JSON.stringify(conf_moods)},
       conf_flavors = !{JSON.stringify(conf_flavors)},
       alerts_url = "#{alerts_url}",
-      graphiteRange = '1days',
+      graphiteRange = '-1days',
       metricsPrefix = '#{metricsPrefix}',
       region = '#{region}';
 
@@ -124,14 +166,18 @@ block content
      * @param {int} from - the date range to display data from
      * @returns {String} - image url
      */
-    function getMetricsURL(width, height, from) {
+    function getMetricsURL(width, height, from, until) {
       var colors = [];
 
       var stub = '#{graphiteEndpoints.render}/?';
       stub += 'width=' + width;
       stub += '&height=' + height;
       stub += '&_salt=' + _.now();
-      stub += '&from=-' + from;
+      stub += '&from=' + from;
+
+      if(until)
+        stub += '&until=' + until;
+      
       stub += '&tz=UTC';
       stub += '&fgcolor=black';
       stub += '&bgcolor=white';
@@ -150,9 +196,10 @@ block content
       return stub + targets.join('');
     }
 
-    function updateGraphiteChart(from) {
+    function updateGraphiteChart(from, until) {
       graphiteRange = from;
-      $('#graphite-img').attr('src', getMetricsURL(1000, 450, from));
+      $('#graphite img').attr('src', getMetricsURL(800, 350, from, until));
+      $('#graphite a').attr('href', getMetricsURL(1000, 450, from, until));
     }
 
     $(function () {

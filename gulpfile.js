@@ -14,6 +14,7 @@ var src = {
   css: [ // TODO(pcsforeducation) should be bower based.
     'public/css/*.css',
     'bower_components/datatables.net-bs/css/dataTables.bootstrap.css',
+    'bower_components/bootstrap-daterangepicker/daterangepicker.css',
     '!public/css/min.css'
   ],
   js: [
@@ -27,6 +28,8 @@ var src = {
     'bower_components/socket.io-client/socket.io.js',
     'bower_components/datatables.net/js/jquery.dataTables.js',
     'bower_components/datatables.net-bs/js/dataTables.bootstrap.js',
+    'bower_components/moment/min/moment-with-locales.min.js',
+    'bower_components/bootstrap-daterangepicker/daterangepicker.js',
     'public/js/funcs.js',
     'public/js/eventhandler.js'
   ]

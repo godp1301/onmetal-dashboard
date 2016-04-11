@@ -111,8 +111,8 @@ module.exports = {
       name: 'maintenance',
       label: 'Maintenance',
       moodType: 'bad',
-      color: '#FF1919',
-      highlight: '',
+      color: '#F3D42F',
+      highlight: '#FFE55C',
       validate: function (node) {
         return node.maintenance === true;
       }
@@ -121,8 +121,8 @@ module.exports = {
       name: 'nobmc',
       label: 'BMC broken',
       moodType: 'bad',
-      color: '#E62E00',
-      highlight: '',
+      color: '#EA3A22',
+      highlight: '#F07F73',
       validate: function (node) {
         return (node.power_state === null);
       }
@@ -131,8 +131,8 @@ module.exports = {
       name: 'inactivewithinstance',
       label: 'Inactive with instance uuid',
       moodType: 'bad',
-      color: '#CCFFCC',
-      highlight: '',
+      color: '#FBE739',
+      highlight: '#F8E965',
       // This mood is transited by nodes being deployed, so we can't reliably
       // detect it. Leave the mood in place but make the validate function
       // always return false, as to not mess up metrics pushed to graphite
@@ -144,8 +144,8 @@ module.exports = {
       name: 'stopped',
       label: 'Active but powered off',
       moodType: 'good',
-      color: '#CC0066',
-      highlight: '',
+      color: '#899EE8',
+      highlight: '#708DF6',
       validate: function (node) {
         return (node.provision_state === 'active' && node.power_state === 'power off');
       }
@@ -154,8 +154,8 @@ module.exports = {
       name: 'noinstance',
       label: 'Active w/o instance',
       moodType: 'bad',
-      color: '#CCFF33',
-      highlight: '',
+      color: '#BB6BCE',
+      highlight: '#D862F4',
       validate: function (node) {
         return (node.provision_state === 'active' && node.instance_uuid === null);
       }
@@ -164,8 +164,8 @@ module.exports = {
       name: 'neutronfail',
       label: 'Neutron API Failure',
       moodType: 'bad',
-      color: '#D333FF',
-      highlight: '',
+      color: '#935BCD',
+      highlight: '#B97DF7',
       validate: function (node) {
         var port_not_found = new RegExp('exception: Port [A-Za-z0-9\-]+ could not be found');
         var postcommit_fail = new RegExp('(create|update)_port_postcommit failed');
@@ -187,8 +187,8 @@ module.exports = {
       name: 'broken',
       label: 'Broken',
       moodType: 'bad',
-      color: '#CC1414',
-      highlight: '',
+      color: '#EE7B28',
+      highlight: '#F0A56F',
       validate: function (node) {
         return (node.provision_state === 'active' && node.instance_uuid === null) ||
                (node.provision_state === 'error') ||
@@ -198,38 +198,11 @@ module.exports = {
       }
     },
     {
-      name: 'nohb-lockednode',
-      label: 'No HB - locked node',
-      moodType: 'bad',
-      color: '#743824',
-      highlight: '',
-      validate: function (node) {
-        var now = Math.round(_.now() / 1000);
-        var last_heartbeat = 0;
-        if ('driver_internal_info' in node) {
-          last_heartbeat = node.driver_internal_info.agent_last_heartbeat;
-        } else {
-          last_heartbeat = node.driver_info.agent_last_heartbeat;
-        }
-        var time_since_heartbeat = (now - last_heartbeat);
-        var time_since_prov_state_update = (now - Date.parse(node.provision_updated_at)/1000);
-        var is_cleaning = false;
-        if (node.provision_state === 'decommissioning' ||
-            node.provision_state === 'cleaning') {
-          is_cleaning = true;
-        }
-        return node.reservation !== null &&
-               ((time_since_heartbeat > 300 && node.provision_state === null) ||
-                (time_since_heartbeat > 300 && is_cleaning
-                                            && time_since_prov_state_update > 300));
-      }
-    },
-    {
       name: 'noheartbeat',
       label: 'No Heartbeat',
       moodType: 'bad',
-      color: '#D14719',
-      highlight: '',
+      color: '#F3AF2F',
+      highlight: '#F1C675',
       validate: function (node) {
         var now = Math.round(_.now() / 1000);
         var last_heartbeat = 0;
@@ -245,8 +218,7 @@ module.exports = {
             node.provision_state === 'cleaning') {
           is_cleaning = true;
         }
-        return node.reservation === null &&
-                ((time_since_heartbeat > 300 && node.provision_state === null) ||
+        return  ((time_since_heartbeat > 300 && node.provision_state === null) ||
                  (time_since_heartbeat > 300 && is_cleaning
                                              && time_since_prov_state_update > 300));
       }
@@ -255,19 +227,20 @@ module.exports = {
       name: 'clean',
       label: 'Cleaning',
       moodType: 'good',
-      color: '#5C5CE6',
-      highlight: '',
+      color: '#899EE8',
+      highlight: '#6888F7',
       validate: function (node) {
         return (node.provision_state === 'decommissioning' ||
-                node.provision_state === 'cleaning');
+                node.provision_state === 'cleaning' ||
+                node.provision_state === 'clean wait');
       }
     },
     {
       name: 'provisioned',
       label: 'Provisioned',
       moodType: 'good',
-      color: '#3030FF',
-      highlight: '',
+      color: '#4DA337',
+      highlight: '#44B727',
       validate: function (node) {
         return (node.provision_state === 'active' && node.maintenance !== true &&
                 node.instance_uuid !== null && node.power_state === 'power on');
@@ -277,8 +250,8 @@ module.exports = {
       name: 'deploying',
       label: 'Deploying',
       moodType: 'good',
-      color: '#6B8FB2',
-      highlight: '',
+      color: '#61C478',
+      highlight: '#48DD6A',
       validate: function (node) {
         return (node.provision_state === 'wait call-back' ||
                 node.provision_state === 'deploying');
@@ -288,8 +261,8 @@ module.exports = {
       name: 'deleting',
       label: 'Deleting',
       moodType: 'good',
-      color: '#6B6BB2',
-      highlight: '',
+      color: '#3982D2',
+      highlight: '#569CE8',
       validate: function (node) {
         return (node.provision_state === 'deleting');
       }
@@ -298,18 +271,30 @@ module.exports = {
       name: 'manageable',
       label: 'Manageable',
       moodType: 'good',
-      color: '#A2A376',
-      highlight: '',
+      color: '#A6D9FD',
+      highlight: '#82C5F5',
       validate: function (node) {
         return (node.provision_state === 'manageable'&& node.instance_uuid === null);
+      }
+    },
+    {
+      name: 'reserved',
+      label: 'Inactive but Reserved',
+      moodType: 'good',
+      color: '#98B4BF',
+      highlight: '#BFD9E3',
+      validate: function (node) {
+        return (('reserved_for_tenant_id' in node.properties && node.properties.reserved_for_tenant_id.length !== 0)
+                || ('reserved_for_user_id' in node.properties && node.properties.reserved_for_user_id.length !== 0))
+                && node.provision_state === 'available'
       }
     },
     {
       name: 'inactive',
       label: 'Inactive',
       moodType: 'good',
-      color: '#666666',
-      highlight: '',
+      color: '#BDBDBD',
+      highlight: '#AFAFAF',
       validate: function (node) {
         return (node.provision_state === null || node.provision_state === 'available');
       }
@@ -318,8 +303,8 @@ module.exports = {
       name: 'rescued',
       label: 'Rescued',
       moodType: 'good',
-      color: '#8A2BE2',
-      highlight: '',
+      color: '#003366',
+      highlight: '#78C6E7',
       validate: function (node) {
         return ((node.provision_state === 'rescue' && node.instance_uuid !== null) ||
           (node.provision_state === 'rescuewait' && node.instance_uuid !== null));
@@ -329,8 +314,8 @@ module.exports = {
       name: 'rescuefail',
       label: 'Rescue failed',
       moodType: 'bad',
-      color: '#FF007F',
-      highlight: '',
+      color: '#CF4384',
+      highlight: '#F44596',
       validate: function (node) {
         return node.provision_state == 'rescuefail'
       }
@@ -338,8 +323,8 @@ module.exports = {
     {
       name: 'unknown',
       label: 'Unknown (mood)',
-      color: '#000000',
-      highlight: '',
+      color: '#333333',
+      highlight: '#222222',
       validate: function () {
         return true;
       }

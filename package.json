@@ -26,7 +26,8 @@
     "static-favicon": "~1.0.0",
     "underscore": "^1.6.0",
     "utile": "^0.2.1",
-    "zeroclipboard": "^2.1.5"
+    "zeroclipboard": "^2.1.5",
+    "moment": "^2.12.0"
   },
   "devDependencies": {
     "eslint": "~0.7.4",

@@ -46,7 +46,7 @@ var dist = {
  *
  * @return {*} A gulp stream that performs this action.
  */
-gulp.task('iconfont', function() {
+/**gulp.task('iconfont', function() {
   gulp.src([dist.fonts + 'openstack/*.svg'])
     .pipe(iconfont({
       fontName: 'openstack',
@@ -67,6 +67,7 @@ gulp.task('iconfont', function() {
     })
     .pipe(gulp.dest(dist.fonts + 'openstack/'));
 });
+*/
 
 /**
  * Compress and Combine CSS & JS
